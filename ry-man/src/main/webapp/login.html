@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>系统登录 - 任易学后台管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- basic styles -->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+<!--[if IE 7]>
+	  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+<!-- page specific plugin styles -->
+<!-- ace styles -->
+<link rel="stylesheet" href="assets/css/ace.min.css" />
+<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+<!--[if lte IE 8]>
+	  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+	<![endif]-->
+<!-- inline styles related to this page -->
+<!-- ace settings handler -->
+<script src="assets/js/ace-extra.min.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery
+			|| document.write("<script src='assets/js/jquery-2.0.3.min.js'>"
+					+ "<"+"/script>");
+</script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+        <script type="text/javascript">
+         window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+        </script>
+    <![endif]-->
+<script src="assets/js/jquery.form.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/typeahead-bs2.min.js"></script>
+<!-- ace scripts -->
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+<!-- page specific plugin scripts -->
+<script src="assets/js/bootbox.min.js"></script>
+<script src="assets/js/bootstrap-tag.min.js"></script>
+<style type="text/css">
+.light-login {
+	background: #dfe0e2 url(assets/css/images/pattern.jpg) repeat
+}
+
+.light-login .widget-box {
+	padding: 1px 1px 0;
+	-webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, .12);
+	box-shadow: 0 0 2px 1px rgba(0, 0, 0, .12);
+	border-bottom: 1px solid rgba(50, 50, 50, .33)
+}
+
+.light-login .widget-box .toolbar {
+	border-top-width: 1px
+}
+
+.light-login .widget-box.login-box {
+	background-color: #BCC6CF;
+	background-color: rgba(100, 110, 120, .4)
+}
+
+.light-login .widget-box.signup-box {
+	background-color: #C1CEC4;
+	background-color: rgba(110, 120, 100, .4)
+}
+
+.light-login .widget-box.forgot-box {
+	background-color: #D2C5C5;
+	background-color: rgba(120, 110, 100, .4)
+}
+</style>
+
+<script src="assets/tp/js/erp/login.js"></script>
+</head>
+
+<body class="login-layout light-login">
+	<div class="main-container">
+		<div class="main-content">
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="login-container">
+						<div class="center">
+							<h1>
+								<img src="assets/img/logo_dmall2.png" width="150" height="37"
+									alt="logo " /> <span class="red" id="id-text2">后台管理系统</span>
+							</h1>
+							<h4 class="blue" id="id-company-text">&copy; 任易学</h4>
+						</div>
+
+						<div class="space-6"></div>
+
+						<div class="position-relative">
+							<div id="login-box"
+								class="login-box visible widget-box no-border">
+								<div class="widget-body">
+									<div class="widget-main">
+										<h4 class="header blue lighter bigger">
+											<i class="ace-icon fa fa-coffee green"></i> 系统登录
+										</h4>
+
+										<div class="space-6"></div>
+
+										<form method="post" action="login" id="user-login-form">
+											<fieldset>
+												<label class="block clearfix"> <i
+													class="icon-user icon-on-right"></i> 登录账号： <span
+													class="block input-icon input-icon-right"> <input
+														id="loginId" name="loginId" type="text"
+														class="form-control" />
+
+												</span>
+												</label> <label class="block clearfix"> <i
+													class="icon-lock icon-on-right"></i>  登录密码： <span
+													class="block input-icon input-icon-right"> <input
+														type="password" id="password" name="password" class="form-control" />
+												</span>
+												</label>
+
+												<div class="space"></div>
+
+												<div class="clearfix">
+													<label class="inline"> <input type="checkbox"
+														class="ace" id="remember" name="remember" value="1" /> <span
+														class="lbl"> 记住我</span>
+													</label>
+
+													<button id="btnLogin" type="button"
+														class="width-35 pull-right btn btn-sm btn-primary">
+														<i class=" icon-plane icon-on-right"></i> <span
+															class="bigger-110">登录</span>
+													</button>
+												</div>
+
+												<div class="space-4"></div>
+											</fieldset>
+										</form>
+
+										<div class="social-or-login center">
+											<span class="bigger-110">dmall.com</span>
+										</div>
+
+										<div class="space-6"></div>
+
+									</div>
+									<!-- /.widget-main -->
+
+									<div class="toolbar clearfix">
+										<div>
+											<a href="#" data-target="#forgot-box"
+												class="forgot-password-link"> <i
+												class="ace-icon fa fa-arrow-left"></i>
+											</a>
+										</div>
+
+										<div>
+											<a href="#" data-target="#signup-box"
+												class="user-signup-link"> <i
+												class="ace-icon fa fa-arrow-right"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+								<!-- /.widget-body -->
+							</div>
+							<!-- /.login-box -->
+
+
+
+
+						</div>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.main-content -->
+		</div>
+		<!-- /.main-container -->
+	</div>
+	
+		<!-- basic scripts -->
+		<script type="text/javascript">
+			if ('ontouchstart' in document.documentElement)
+				document
+						.write("<script src='dist/js/jquery.mobile.custom.min.js'>"
+								+ "<"+"/script>");
+		</script>
+
+		<!-- inline scripts related to this page -->
+</body>
+</html>

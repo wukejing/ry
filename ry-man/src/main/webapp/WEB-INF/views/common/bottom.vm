@@ -1,0 +1,2 @@
+<script src="${rc.contextPath}/assets/js/jquery.cookie.js"></script>
+<script src="$!{erpModule}assets/tp/js/erp/erp-menu.js" id="erp_user_menu_js"></script>

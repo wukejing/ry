@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mv.dao.OperateLogDao">
+
+	<!-- wm_store 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[id,app_id AS appId,operator AS operator,operator_type As operatorType ,operator_name AS operatorName,operate_time AS operateTime,operate_ip AS operateIp,controller,action,status,memo,created,modified]]>
+	</sql>
+
+	<!-- wm_store 查询列来源表-->
+	<sql id="QUERY_FROM_TABLE"><![CDATA[FROM operate_log_${yearMonthPart}]]></sql>
+	<select id="CREATE_TABLE" parameterType="OperateLog"><![CDATA[CREATE TABLE IF NOT EXISTS operate_log_${yearMonthPart} (
+		  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+		  `app_id` int(11) DEFAULT NULL COMMENT '1、前台 2、后台',
+		  `operator` int(11) DEFAULT NULL COMMENT '操作人ID',
+		  `operator_type` varchar(45) DEFAULT NULL COMMENT '操作人类型 ',
+		  `operator_name` varchar(45) DEFAULT NULL COMMENT '操作人名字',
+		  `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
+		  `operate_ip` varchar(45) DEFAULT NULL COMMENT '操作IP地址',
+		  `controller` varchar(100) DEFAULT NULL COMMENT '执行的controller',
+		  `action` varchar(400) DEFAULT NULL COMMENT '执行的action',
+		  `status` tinyint(4) DEFAULT NULL COMMENT ' 操作状态 1、成功  -1、失败',
+		  `memo` text COMMENT '备注',
+		  `created` datetime DEFAULT NULL COMMENT '创建时间',
+		  `modified` datetime DEFAULT NULL COMMENT '修改时间',
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+	]]></select>
+	<!-- 全部条件(更多功能可以通过queryData扩展实现)  -->
+	<sql id="QUERY_WHERE_CLAUSE">
+		<where>
+			<if test="id != null and id != ''"><![CDATA[AND id = #{id}]]></if>
+			<if test="appId != null and appId != ''"><![CDATA[AND app_id = #{appId}]]></if>
+			<if test="operator != null and operator != ''"><![CDATA[AND operator = #{operator}]]></if>
+			<if test="operatorType != null and operatorType != ''"><![CDATA[AND operator_type = #{operatorType}]]></if>
+			<if test="operatorName != null and operatorName != ''"><![CDATA[AND operator_name = #{operatorName}]]></if>
+			<if test="operateTime != null and operateTime != ''"><![CDATA[AND operate_time = #{operateTime}]]></if>
+			<if test="operateIp != null and operateIp != ''"><![CDATA[AND operate_ip = #{operateIp}]]></if>
+			<if test="controller != null and controller != ''"><![CDATA[AND controller = #{controller}]]></if>
+			<if test="action != null and action != ''"><![CDATA[AND action = #{action}]]></if>
+			<if test="memo != null and memo != ''"><![CDATA[AND memo = #{memo}]]></if>
+			<if test="status != null and status != ''"><![CDATA[AND status = #{status}]]></if>
+		</where>
+	</sql>
+	
+	<!-- 智能排序与分页 -->
+	<sql id="QUERY_ORDER_LIMIT_CONDTION">
+		<if test="orderField != null and orderField != '' and orderFieldType != null and orderFieldType != ''"><![CDATA[ORDER BY ${orderField} ${orderFieldType}]]></if>
+		<if test="startIndex != null and startIndex &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startIndex},#{pageSize}]]></if>
+	</sql>
+
+	<!-- 插入wm_store记录 -->
+	<insert id="insertEntry" parameterType="OperateLog" >
+		<![CDATA[
+			INSERT INTO operate_log_${yearMonthPart} (app_id,operator,operator_type,operator_name,operate_time,operate_ip,controller,action,status,memo,created,modified)
+			VALUES (#{appId},#{operator},#{operatorType},#{operatorName},#{operateTime},#{operateIp},#{controller},#{action},#{status},#{memo},now(),now())
+		]]>
+	</insert>
+	
+	<!-- 返回插入的编号,在事务开启状态下有效 -->
+	<select id="lastSequence" resultType="long"><![CDATA[SELECT LAST_INSERT_ID() AS id]]></select>
+
+	<!-- 删除,通过条件 -->
+	<update id="deleteByCondtion" parameterType="OperateLog" >
+		<![CDATA[DELETE FROM operate_log_${yearMonthPart}]]>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</update>
+
+	<!-- 查询,通过主键IN(array) -->
+	<select id="selectEntryArray" parameterType="java.lang.reflect.Array" resultType="OperateLog">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<![CDATA[WHERE id IN]]>
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+	</select>
+
+	<!-- 查询,通过条件 -->
+	<select id="selectEntryList" parameterType="OperateLog" resultType="OperateLog">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+		<include refid="QUERY_ORDER_LIMIT_CONDTION"/>
+	</select>
+
+	<!-- 总数查询,通过条件 -->
+	<select id="selectEntryListCount" parameterType="OperateLog" resultType="long">
+		<![CDATA[SELECT COUNT(id) AS dataCount]]>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</select>
+	
+	<!-- 其它SQL语句 -->
+</mapper>

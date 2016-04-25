@@ -1,0 +1,64 @@
+#set($title="操作日志")
+<div class="breadcrumbs">
+    <ul class="breadcrumb" id="breadcrumbs">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="${rc.contextPath}/main">首页</a>
+        </li>
+        <li>
+				操作日志
+        </li>
+    </ul>
+</div>
+
+<div class="page-content">    
+    <div class="dataTables_wrapper col-md-12">
+       <div class="row form-group">
+            <div class="col-sm-6">
+            </div>
+        </div>
+        
+        <table  class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                	<th class="center">编号</th>
+                    <th class="center")>操作人ID</th>
+                    <th class="center")>操作人名字</th>
+                    <th class="center")>类名</th>
+                    <th class="center")>方法名</th>
+                    <th class="center")>操作时间</th>
+                    <th class="center")>操作IP</th>
+                    <th class="center")>状态</th>
+                    <th class="center")>备注</th>
+                </tr>
+            </thead>
+            <tbody role="alert" aria-live="polite" aria-relevant="all" id="listall">
+                #if(${page.result} && $page.result.size()>0)
+                    #foreach($instance in $page.result)
+                        <tr>
+                            <td class="center">$!instance.id</td>
+                            <td>$!{instance.operator}</td>
+                            <td>$!{instance.operatorName}</td>
+                            <td>$!{instance.controller}</td>
+                            <td>$!{instance.action}</td>
+                            <td>$!dateTool.format("yyyy-MM-dd HH:mm:ss", $!{instance.operateTime})</td>
+                            <td>$!{instance.operateIp}</td>
+                            <td>#if($!{instance.yn} == 1)
+                            	成功
+                            #else
+                            	失败
+                            #end
+                            </td>
+                            <td>$!{instance.memo}</td>                                                                                                                                                                                               
+                        </tr>
+                    #end
+                #end
+            </tbody>
+        </table>
+		#if(${page} && ${page.pageCount} > 0)
+			#showPage($pageModule $!{page})
+		#end
+    </div>
+</div>
+<script src="${rc.contextPath}/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.dataTables.min.js"></script>

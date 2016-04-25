@@ -1,0 +1,72 @@
+#set($title="修改系统")
+<div class="page-content col-sm-12 tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+        <li class="active">
+                <a href="javascript:void(0);">
+                    <i class="success icon-edit bigger-110"></i>
+                    修改系统
+                </a>
+        </li>
+        <div class="pull-right">
+            <a href="${rc.contextPath}/erpSystem/list" class="btn-success btn btn-xs">
+                返回列表页
+                <i class="icon-undo  align-top bigger-125 icon-on-right"></i>
+            </a>
+        </div>
+    </ul>
+
+	<div class="tab-content">
+	    <div id="tab1" class="tab-pane active">
+	    	<form class="form-horizontal" method="post" action="${rc.contextPath}/erpSystem/update" id="submit-form">
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统名称</label>
+					<div class="col-sm-9">
+						<input type="hidden" name="id" value="$!system.id">
+						<input type="text" id="sysName" name="sysName" value="$!system.sysName"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统图标</label>
+					<div class="col-sm-9">
+						<input type="text" id="icon" name="icon" value="$!system.icon"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统域名</label>
+					<div class="col-sm-9">
+						<input type="text" id="sysDomain" name="sysDomain" value="$!system.sysDomain"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统负责人</label>
+					<div class="col-sm-9">
+						<input type="text" id="sysOwner" name="sysOwner" value="$!system.sysOwner"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">备注</label>
+					<div class="col-sm-9">
+						<input type="text" id="remark" name="remark" value="$!system.remark"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-3 col-md-10">
+						<button class="btn btn-info" type="button" id='submit-btn'>
+							<i class="icon-ok bigger-110"></i>
+							提交
+						</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset">
+							<i class="icon-undo bigger-110"></i>
+							重置
+						</button>
+					</div>
+				</div>
+			</form>	
+	    </div>
+	</div>
+</div>
+<script src="${rc.contextPath}/assets/js/jquery.validate.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.validate.message_cn.js"></script>
+<script src="${rc.contextPath}/assets/tp/js/erp/erpSystem_edit.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/assets/css/validate.css" />

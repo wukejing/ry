@@ -1,0 +1,6 @@
+user_list:<br/>
+#foreach($user in $users)
+	$user.name
+	$user.salary
+	<br/>
+#end

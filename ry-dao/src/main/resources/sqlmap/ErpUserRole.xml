@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mv.dao.ErpUserRoleDao">
+
+	<!-- 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[id,user_id as userId, role_id as roleId]]>
+	</sql>
+
+	<!-- 查询列来源表-->
+	<sql id="QUERY_FROM_TABLE"><![CDATA[FROM erp_user_role]]></sql>
+	
+	<!-- 全部条件(更多功能可以通过queryData扩展实现)  -->
+	<sql id="QUERY_WHERE_CLAUSE">
+		<where>
+			<if test="id != null"><![CDATA[AND id = #{id}]]></if>
+			<if test="userId != null"><![CDATA[AND user_id = #{userId}]]></if>
+			<if test="roleId != null"><![CDATA[AND role_id = #{roleId}]]></if>
+		</where>
+	</sql>
+	
+	<!-- 插入记录 -->
+	<insert id="insertEntry" parameterType="ErpUserRole" >
+		<![CDATA[
+			INSERT INTO erp_user_role (user_id,role_id)
+			VALUES (#{userId},#{roleId})
+		]]>
+	</insert>
+	
+	<!-- 返回插入的编号,在事务开启状态下有效 -->
+	<select id="lastSequence" resultType="long"><![CDATA[SELECT LAST_INSERT_ID() AS id]]></select>
+	
+	<!-- 删除记录,主键IN(array) -->
+	<delete id="deleteByArrayKey" parameterType="java.lang.reflect.Array" >
+		<![CDATA[DELETE FROM erp_user_role WHERE id IN]]>
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+	</delete>
+	
+	<!-- 删除,通过条件 -->
+	<update id="deleteByCondtion" parameterType="ErpUserRole" >
+		<![CDATA[DELETE FROM erp_user_role]]>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</update>
+	
+	<!-- 查询,通过主键IN(array) -->
+	<select id="selectEntryArray" parameterType="java.lang.reflect.Array" resultType="ErpUserRole">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<![CDATA[WHERE id IN]]>
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+	</select>
+	
+	<!-- 查询,通过条件 -->
+	<select id="selectEntryList" parameterType="ErpUserRole" resultType="ErpUserRole">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</select>
+	
+	<!-- 总数查询,通过条件 -->
+	<select id="selectEntryListCount" parameterType="ErpUserRole" resultType="long">
+		<![CDATA[SELECT COUNT(id) AS dataCount]]>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</select>
+</mapper>

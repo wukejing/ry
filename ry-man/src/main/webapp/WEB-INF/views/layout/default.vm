@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<!--样式头文件-->
+#parse("common/head.vm")
+	<body>
+		<input id="contextPath" type="hidden" value="${rc.contextPath}"/>
+		<input id="erpPath" type="hidden" value="$!erpModule"/>
+        <!--框架头文件-->
+		#parse("mainFrame/frame-header.vm")
+        <!--框架菜单文件-->
+		#parse("mainFrame/frame-main.vm")
+		<!--文件footer-->
+		#parse("common/bottom.vm")
+	</body>
+</html>

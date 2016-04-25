@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mv.dao.ErpPrivilegeDao">
+
+	<!-- 所有查询列 -->
+	<sql id="QUERY_COLUMN_LIST">
+		<![CDATA[id,pid,privilege_name as privilegeName,privilege_type as privilegeType,privilege_url as privilegeUrl,
+		privilege_code as privilegeCode,flag_leaf as flagLeaf,icon,order_num as orderNum,erp_sys_id erpSysId,remark,created,modified,yn]]>
+	</sql>
+
+	<!-- 查询列来源表-->
+	<sql id="QUERY_FROM_TABLE"><![CDATA[FROM erp_privilege]]></sql>
+	
+	<!-- 全部条件(更多功能可以通过queryData扩展实现)  -->
+	<sql id="QUERY_WHERE_CLAUSE">
+		<where>
+			<if test="id != null"><![CDATA[AND id = #{id}]]></if>
+			<if test="pid != null"><![CDATA[AND pid = #{pid}]]></if>
+			<if test="privilegeName != null and privilegeName != ''"><![CDATA[AND privilege_name = #{privilegeName}]]></if>
+			<if test="privilegeType != null"><![CDATA[AND privilege_type = #{privilegeType}]]></if>
+			<if test="privilegeUrl != null and privilegeUrl != ''"><![CDATA[AND privilege_url = #{privilegeUrl}]]></if>
+			<if test="privilegeCode != null and privilegeCode != ''"><![CDATA[AND privilege_code = #{privilegeCode}]]></if>
+			<if test="flagLeaf != null"><![CDATA[AND flag_leaf = #{flagLeaf}]]></if>
+			<if test="icon != null and icon != ''"><![CDATA[AND icon = #{icon}]]></if>
+			<if test="orderNum != null and orderNum != ''"><![CDATA[AND order_num = #{orderNum}]]></if>
+			<if test="erpSysId != null"><![CDATA[AND erp_sys_id = #{erpSysId}]]></if>
+			<if test="remark != null and remark != ''"><![CDATA[AND remark = #{remark}]]></if>
+			<if test="created != null and created != ''"><![CDATA[AND created = #{created}]]></if>
+			<if test="modified != null and modified != ''"><![CDATA[AND modified = #{modified}]]></if>
+			<if test="yn != null"><![CDATA[AND yn = #{yn}]]></if>
+			<if test="startDateStr != null and startDateStr != ''"><![CDATA[AND created >= #{startDateStr}]]></if>
+			<if test="endDateStr != null and endDateStr != ''"><![CDATA[AND created <= #{endDateStr}]]></if>
+		</where>
+	</sql>
+	
+	<!-- 智能排序与分页 -->
+	<sql id="QUERY_ORDER_LIMIT_CONDTION">
+		<if test="orderField != null and orderField != '' and orderFieldType != null and orderFieldType != ''"><![CDATA[ORDER BY ${orderField} ${orderFieldType}]]></if>
+		<if test="startIndex != null and startIndex &gt;= 0 and pageSize != null and pageSize &gt; 0"><![CDATA[LIMIT #{startIndex},#{pageSize}]]></if>
+	</sql>
+
+	<!-- 更新列字段,只要不为NULL则更新,除开主键列-->
+	<sql id="UPDATE_COLUMN_SET">
+		<set>
+			<![CDATA[modified = now(),]]>
+			<if test="pid != null and pid != ''"><![CDATA[pid = #{pid},]]></if>
+			<if test="privilegeName != null and privilegeName != ''"><![CDATA[privilege_name = #{privilegeName},]]></if>
+			<if test="privilegeType != null"><![CDATA[privilege_type = #{privilegeType},]]></if>
+			<if test="privilegeUrl != null and privilegeUrl != ''"><![CDATA[privilege_url = #{privilegeUrl},]]></if>
+			<if test="privilegeCode != null and privilegeCode != ''"><![CDATA[privilege_code = #{privilegeCode},]]></if>
+			<if test="flagLeaf != null"><![CDATA[flag_leaf = #{flagLeaf},]]></if>
+			<if test="icon != null and icon != ''"><![CDATA[icon = #{icon},]]></if>
+			<if test="orderNum != null and orderNum != ''"><![CDATA[order_num = #{orderNum},]]></if>
+			<if test="erpSysId != null"><![CDATA[erp_sys_id = #{erpSysId},]]></if>
+			<if test="remark != null and remark != ''"><![CDATA[remark = #{remark},]]></if>
+			<if test="yn != null"><![CDATA[yn = #{yn},]]></if>
+		</set>
+	</sql>
+	
+	<!-- 插入记录 -->
+	<insert id="insertEntry" parameterType="ErpPrivilege" >
+		<![CDATA[
+			INSERT INTO erp_privilege (pid,privilege_name,privilege_type,privilege_url,
+			privilege_code,flag_leaf,icon,order_num,erp_sys_id,remark,created,modified,yn)
+			VALUES 
+			(#{pid},#{privilegeName},#{privilegeType},#{privilegeUrl},
+			#{privilegeCode},#{flagLeaf},#{icon},#{orderNum},#{erpSysId},#{remark},#{created},#{modified},#{yn})
+		]]>
+	</insert>
+	
+	<!-- 返回插入的编号,在事务开启状态下有效 -->
+	<select id="lastSequence" resultType="long"><![CDATA[SELECT LAST_INSERT_ID() AS id]]></select>
+	
+	<!-- 删除记录,主键IN(array) -->
+	<delete id="deleteByArrayKey" parameterType="java.lang.reflect.Array" >
+		<![CDATA[DELETE FROM erp_privilege WHERE id IN]]>
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+	</delete>
+	
+	<!-- 删除,通过条件 -->
+	<update id="deleteByCondtion" parameterType="ErpPrivilege" >
+		<![CDATA[DELETE FROM erp_privilege]]>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</update>
+	
+	<!-- 修改记录通过主键 -->
+	<update id="updateByKey" parameterType="ErpPrivilege" >
+		<![CDATA[UPDATE erp_privilege]]>
+		<include refid="UPDATE_COLUMN_SET"/>
+		<![CDATA[WHERE id = #{id}]]>
+	</update>
+	
+	<!-- 查询,通过主键IN(array) -->
+	<select id="selectEntryArray" parameterType="java.lang.reflect.Array" resultType="ErpPrivilege">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<![CDATA[WHERE id IN]]>
+		<foreach collection="array" item="id" open="(" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+	</select>
+	
+	<!-- 查询,通过条件 -->
+	<select id="selectEntryList" parameterType="ErpPrivilege" resultType="ErpPrivilege">
+		<![CDATA[SELECT]]>
+		<include refid="QUERY_COLUMN_LIST"/>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+		<include refid="QUERY_ORDER_LIMIT_CONDTION"/>
+	</select>
+	
+	<!-- 总数查询,通过条件 -->
+	<select id="selectEntryListCount" parameterType="ErpPrivilege" resultType="long">
+		<![CDATA[SELECT COUNT(id) AS dataCount]]>
+		<include refid="QUERY_FROM_TABLE"/>
+		<include refid="QUERY_WHERE_CLAUSE"/>
+	</select>
+</mapper>

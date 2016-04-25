@@ -1,0 +1,67 @@
+#set($title="修改公司")
+<div class="page-content col-sm-12 tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+        <li class="active">
+                <a <a href="javascript:void(0);">
+                    <i class="success icon-edit bigger-110"></i>
+                    修改公司
+                </a>
+        </li>
+        <div class="pull-right">
+            <a href="${rc.contextPath}/company" class="btn-success btn btn-xs">
+                返回列表页
+                <i class="icon-undo  align-top bigger-125 icon-on-right"></i>
+            </a>
+        </div>
+    </ul>
+
+	<div class="tab-content">
+	    <div id="tab1" class="tab-pane active">
+	    	<form class="form-horizontal" method="post" id="member-submit-form">
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">名称</label>
+					<div class="col-sm-9">
+						<input type="hidden" name="id" value="$!company.id">
+						<input type="text" id="express_name" name="expressName" value="$!company.expressName"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">联系人</label>
+					<div class="col-sm-9">
+						<input type="text" id="contact" name="contact" value="$!company.contact"  class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">联系电话</label>
+					<div class="col-sm-9">
+						<input type="text" id="tel" name="tel"  value="$!company.tel"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">是否有效</label>
+					<div class="col-sm-9">
+						<label>
+							<input name="yn-checkbox" type="checkbox" id="yn-checkbox" class="ace ace-switch ace-switch-6" #if($!company.yn==1) checked #end />
+							<span class="lbl" ></span>
+						</label>
+						<input type="hidden" name="yn" id="yn" value="$!company.yn">
+					</div>
+				</div>
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-3 col-md-10">
+						<button class="btn btn-info" type="button" id='member-submit-btn'>
+							<i class="icon-ok bigger-110"></i>
+							提交
+						</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset">
+							<i class="icon-undo bigger-110"></i>
+							重置
+						</button>
+					</div>
+				</div>
+			</form>	
+	    </div>
+	</div>
+</div>
+<script src="${rc.contextPath}/assets/tp/js/erp/company_edit.js"></script>

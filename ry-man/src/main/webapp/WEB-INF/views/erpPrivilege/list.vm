@@ -1,0 +1,123 @@
+#set($title="ERP资源管理")
+<div class="breadcrumbs">
+    <ul class="breadcrumb" id="breadcrumbs">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="${rc.contextPath}/main">首页</a>
+        </li>
+        <li>
+				<a href="${rc.contextPath}/erpPrivilege">ERP资源管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+ 	<form class="well row form-horizontal col-md-12" action="${rc.contextPath}/erpPrivilege" method="post">
+        <div class="col-md-3 col-xs-12">
+        	<input type="hidden" name="pid" value="$!pid">
+            <label class="col-md-6 control-label">所属系统:</label>
+            <select class="col-md-6 col-xs-12" name="systemId">
+                <option value="" #if(!$!systemId) selected #end>不限</option>
+                #foreach($system in $systemList)
+                	<option value="$!system.id" #if($!systemId==$!system.id) selected #end>$!system.sysName</option>
+                #end
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-xs-12">
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-xs btn-info" type="submit">
+                        <i class="icon-search icon-on-right"></i>
+                        	查询
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="dataTables_wrapper col-md-12">
+    	 <div class="row form-group">
+            <div class="col-sm-6">
+                <a class="btn btn-success btn-sm" id="test"  href="${rc.contextPath}/erpPrivilege/add?pid=$!pid">
+                    <i class="icon-plus  align-top bigger-125 icon-on-right"></i>
+                    添加资源
+                </a>
+                <a class="btn btn-warning btn-sm" id="test"  href="${rc.contextPath}/erpPrivilege?pid=$!privilege.pid">
+                    <i class="icon-backward  align-top bigger-125 icon-on-right"></i>
+                    返回上级
+                </a>
+            </div>
+        </div>        
+       <table id="aptitude-table" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="center">编号</th>
+                    <th class="center">系统</th>
+                    <th class="center">资源名称</th>
+                    <th class="center">图标</th>
+                    <th class="center">资源类型</th>
+                    <th class="center">URL地址</th>
+                    <th class="center">资源码</th>
+                    <th class="center">是否叶节点</th>
+                    <th class="center">排序值</th>
+                    <th class="center">创建时间</th>
+                    <th class="center">操作</th>
+                </tr>
+            </thead>
+            <tbody role="alert" aria-live="polite" aria-relevant="all" id="listall">
+                #if(${list} && $list.size()>0)
+                    #foreach($instance in $list)
+                        <tr>
+                            <td class="center">$!instance.id</td>
+                            <td>$!instance.erpSysName</td>
+                            <td>$!instance.privilegeName</td>
+                            <td>
+                            	#if($instance.icon)
+		                            <i class="$!instance.icon  align-top bigger-125 icon-on-right"></i>
+                            	#end
+                            </td>
+                            <td>
+                            	#if($!instance.privilegeType == 0)
+                            		<span class="label label-lg label-primary">菜单</span>
+                            	#elseif($!instance.privilegeType == 1)
+                            		<span class="label label-lg label-success">请求路径</span>
+                            	#elseif($!instance.privilegeType == 2)
+                            		<span class="label label-lg label-warning">页面元素</span>
+                            	#elseif($!instance.privilegeType == 3)
+                            		<span class="label label-lg label-danger">虚节点</span>
+                            	#else
+                            		未知
+                            	#end
+                            </td>
+                            <td>$!instance.privilegeUrl</td>
+                            <td>$!instance.privilegeCode</td>
+                            <td>
+                            	#if($!instance.flagLeaf == 0)
+                            		否
+                            	#elseif($!instance.flagLeaf == 1)
+                            		是
+                            	#else
+                            		未知
+								#end
+							</td>
+                            <td>$!instance.orderNum</td>
+                            <td>$!dateTool.format("yyyy-MM-dd HH:mm", $!instance.created)</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="blue" href="${rc.contextPath}/erpPrivilege/edit/$!instance.id">
+                                        <i class=" icon-cog bigger-130"></i>
+                                        修改
+                                    </a>
+                                    <a class="blue" href="${rc.contextPath}/erpPrivilege?pid=$!instance.id">
+                                        <i class=" icon-edit bigger-130"></i>
+                                        管理下级
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    #end
+                #end
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="${rc.contextPath}/assets/js/jquery-ui-1.10.3.full.min.js"></script>

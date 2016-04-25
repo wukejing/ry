@@ -1,0 +1,153 @@
+#set($title="角色授权")
+<link rel="stylesheet" href="${rc.contextPath}/assets/js/zTree/css/zTreeStyle/metro.css">
+<script src="${rc.contextPath}/assets/js/zTree/js/jquery.ztree.all-3.5.min.js"></script>
+<script>
+    var zTree;
+    var demoIframe;
+    var setting = {
+        check: {
+            enable: true,
+            chkboxType:  { "Y" : "s", "N" : "s" }
+        },
+        view: {
+        	fontCss: getFont,
+            dblClickExpand: true,
+            showLine: true,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable:true,
+                idKey: "id",
+                pIdKey: "pIdStr",
+                name:"privilegeId",
+                rootPId: ""
+            }
+        },
+        callback: {
+            onCheck:function(){
+				}
+        }
+    };
+
+    var zNodes =[
+    	#foreach($system in $systemList)
+            {id:"id_$!system.id", pIdStr:0, name:"$!system.sysName",open:true,nocheck:true,font:{'font-weight':'bold','color':'red'}},
+        #end
+        
+    	#foreach($privilege in $privilegeList)
+            {id:$!privilege.id, pIdStr:"$!privilege.pidStr", name:"$!privilege.privilegeName【 #if($privilege.privilegeType==0)菜单#elseif($privilege.privilegeType==1)请求路径#else页面元素#end 】",open:true
+            	 #foreach($rolePrivilege in $rolePrivilegelist)
+					#if($rolePrivilege.privilegeId==$!privilege.id) 
+						,checked:true
+					#end 
+				 #end
+            }
+            #if(${velocityCount} < ${privilegeList.size()})
+            ,
+            #end
+        #end
+        
+    ];
+    
+    function getFont(treeId, node) {
+			return node.font ? node.font : {};
+		}
+
+    jQuery(document).ready(function(){
+        var t = jQuery("#tree");
+        t = jQuery.fn.zTree.init(t, setting, zNodes);
+        demoIframe = jQuery("#testIframe");
+        demoIframe.bind("load", loadReady);
+        var zTree = jQuery.fn.zTree.getZTreeObj("tree");
+        zTree.selectNode(zTree.getNodeByParam("id", 101));
+		
+		 $("#member-submit-btn").click(function () {
+		 
+		 	// 取得选中项，设置到隐藏域
+        	var zTree = jQuery.fn.zTree.getZTreeObj("tree");
+        	checkCount = zTree.getCheckedNodes(true);
+			var classpurview = "";
+			for(var i=0;i<checkCount.length;i++) {
+				classpurview +=  checkCount[i].id
+				if(i < checkCount.length -1 ){
+					classpurview += ","
+				}
+			}
+        	$("#privilegeStr").val(classpurview);
+        	
+	        $('#member-submit-form').ajaxForm({
+	            url: "${rc.contextPath}/erpRole/doGrant",
+	            dataType: "json",
+	            success: function (data) {
+	               if(data.mainCode == 0){
+	               		window.location.href="${rc.contextPath}/erpRole"
+	               }else{
+	               		XUI_dialog(data.result);
+	               }
+	            },
+	            error: function(data) {
+					XUI_dialog("数据异常");
+	            }
+	        }).submit();
+	    });
+    });
+
+    function loadReady() {
+        var bodyH = demoIframe.contents().find("body").get(0).scrollHeight,
+                htmlH = demoIframe.contents().find("html").get(0).scrollHeight,
+                maxH = Math.max(bodyH, htmlH), minH = Math.min(bodyH, htmlH),
+                h = demoIframe.height() >= maxH ? minH:maxH ;
+        if (h < 530) h = 530;
+        demoIframe.height(h);
+    }
+</script>
+<div class="page-content col-sm-12 tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+        <li class="active">
+                <a href="javascript:void(0);">
+                    <i class="success icon-edit bigger-110"></i>
+                    角色授权
+                <span class="label label-lg label-primary">
+							$!erpRole.roleName
+						</span>
+                </a>
+        </li>
+        <div class="pull-right">
+            <a href="${rc.contextPath}/erpRole" class="btn-success btn btn-xs">
+                返回列表页
+                <i class="icon-undo  align-top bigger-125 icon-on-right"></i>
+            </a>
+        </div>
+    </ul>
+
+	    <div id="tab1" class="tab-pane active">
+	    	<form class="form-horizontal" method="post" action="${rc.contextPath}/erpRole/doGrant" id="member-submit-form">
+				<div class="form-group" id="doc-charge-div"  >
+					<div class="col-sm-9">
+						<ul id="tree" class="ztree" style="width:560px; overflow:auto;"></ul>
+					</div>
+				</div>
+				<input type="hidden" name="privilegeStr" id= "privilegeStr">
+				<input type="hidden" name="roleId" id= "roleId" value="$!erpRole.id">
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-1 col-md-10">
+						<button class="btn btn-info" type="button" id='member-submit-btn'>
+							<i class="icon-ok bigger-110"></i>
+							提交
+						</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset">
+							<i class="icon-undo bigger-110"></i>
+							重置
+						</button>
+					</div>
+				</div>
+			</form>	
+	    </div>
+	</div>
+</div>
+				
+				
+				
+				
