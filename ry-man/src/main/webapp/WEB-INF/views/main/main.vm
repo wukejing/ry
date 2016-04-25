@@ -1,0 +1,14 @@
+#set($title="首页")
+<div class="breadcrumbs">
+    <ul class="breadcrumb" id="breadcrumbs">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="${rc.contextPath}/main">首页</a>
+        </li>
+     </ul>
+    <!-- .breadcrumb -->
+</div>
+<div class="page-content">
+<img src="${rc.contextPath}/assets/img/welcome.jpg" width="100%" />
+    
+</div>

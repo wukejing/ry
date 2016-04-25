@@ -1,0 +1,6 @@
+
+    #foreach($company in $companies)
+    	$company.expressName
+    	$company.contact
+    	<br/>
+    #end

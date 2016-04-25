@@ -1,0 +1,86 @@
+#set($title="新增ERP用户")
+<link href="${rc.contextPath}/assets/css/select2.css" rel="stylesheet" />
+<div class="page-content col-sm-12 tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+        <li class="active">
+                <a href="javascript:void(0);">
+                    <i class="success icon-edit bigger-110"></i>
+                    新增ERP用户
+                </a>
+        </li>
+        <div class="pull-right">
+            <a href="${rc.contextPath}/erpUser" class="btn-success btn btn-xs">
+                返回列表页
+                <i class="icon-undo  align-top bigger-125 icon-on-right"></i>
+            </a>
+        </div>
+    </ul>
+
+	<div class="tab-content">
+	    <div id="tab1" class="tab-pane active">
+	    	<form class="form-horizontal" method="post" action="${rc.contextPath}/erpuser/save" id="member-submit-form">
+   				
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">登录账号：</label>
+					<div class="col-sm-9">
+						<input type="text" id="loginId" name="loginId" class="col-xs-10 col-sm-5"/>
+					</div>
+				</div>
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">登录密码：</label>
+					<div class="col-sm-9">
+						<input type="password" id="password"  name="password"  class="col-xs-10 col-sm-5">
+					</div>
+				</div>
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">再次输入密码：</label>
+					<div class="col-sm-9">
+						<input type="password" id="password2"  name="password2"  class="col-xs-10 col-sm-5">
+					</div>
+				</div>
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">真实姓名：</label>
+					<div class="col-sm-9">
+						<input type="text" id="userName" name="userName"  class="col-xs-10 col-sm-5"/>
+					</div>
+				</div>
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">工号：</label>
+					<div class="col-sm-9">
+						<input type="text" id="userNo"  name="userNo" class="col-xs-10 col-sm-5">
+					</div>
+				</div>
+           		<div class="form-group" >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">角色：</label>
+					<div class="col-sm-9">
+							<select multiple="1" id="roleIds" name="roleIds" class="select2" data-placeholder="选择角色">
+								 #foreach($role in $roles)
+									<option value="$!role.id">$!role.roleName</option>
+								   #end
+							</select>
+					</div>
+				</div>
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-3 col-md-10">
+						<button class="btn btn-info" type="button" id='member-submit-btn'>
+							<i class="icon-ok bigger-110"></i>
+							提交
+						</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset">
+							<i class="icon-undo bigger-110"></i>
+							重置
+						</button>
+					</div>
+				</div>
+			</form>	
+	    </div>
+	</div>
+</div>
+<script src="${rc.contextPath}/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.dataTables.min.js"></script>
+<script src="${rc.contextPath}/assets/js/select2.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.validate.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.validate.message_cn.js"></script>
+<script src="${rc.contextPath}/assets/tp/js/erp/erpUser_add.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/assets/css/validate.css" />

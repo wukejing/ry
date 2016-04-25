@@ -1,0 +1,111 @@
+#set($title="新增资源")
+<input id="pid" type="hidden" value="$!privilege.pid"/>
+<div class="page-content col-sm-12 tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+        <li class="active">
+                <a href="javascript:void(0);">
+                    <i class="success icon-plus bigger-110"></i>
+                    新增资源
+                </a>
+        </li>
+        <div class="pull-right">
+            <a href="${rc.contextPath}/erpPrivilege" class="btn-success btn btn-xs">
+                返回列表页
+                <i class="icon-undo  align-top bigger-125 icon-on-right"></i>
+            </a>
+        </div>
+    </ul>
+
+	<div class="tab-content">
+	    <div id="tab1" class="tab-pane active">
+	    	<form  class="form-horizontal" method="post" action="${rc.contextPath}/erpPrivilege/save" id="member-submit-form">
+           		
+    	       <div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">上级资源</label>
+					<div class="col-sm-9">
+						<span class="label label-lg label-primary">$!parentPrivilege.privilegeName</span>
+						<input type="hidden" id="pid" name="pid" value="$!parentPrivilege.id" class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">所属系统</label>
+					<div class="col-sm-9">
+						<select  name="erpSysId">
+			                #foreach($system in $systemList)
+			                	<option value="$!system.id"  #if($!parentPrivilege.erpSysId==$!system.id) selected #end>$!system.sysName</option>
+			                #end
+			            </select>
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">资源名称</label>
+					<div class="col-sm-9">
+						<input type="text" id="privilegeName" name="privilegeName"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">资源类型</label>
+					<div class="col-sm-9">
+						<select name="privilegeType" id="privilegeType">
+						    <option value="0">菜单</option>
+						    <option value="1">请求路径</option>
+						    <option value="2">页面组件</option>
+						    <option value="3">虚节点</option>
+                         </select>
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">资源路径</label>
+					<div class="col-sm-9">
+						<input type="text" id="privilegeUrl" name="privilegeUrl"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">是否叶节点</label>
+					<div class="col-sm-9">
+						<select name="flagLeaf" id="flagLeaf">
+						    <option value="0">否</option>
+						    <option value="1">是</option>
+                         </select>
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">备注</label>
+					<div class="col-sm-9">
+						<input type="text" id="remark" name="remark"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">图标</label>
+					<div class="col-sm-9">
+						<input type="text" id="icon" name="icon"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="form-group" id="doc-charge-div"  >
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">排序值</label>
+					<div class="col-sm-9">
+						<input type="text" id="orderNum" name="orderNum"   class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-5 col-md-10">
+						<button class="btn btn-info" type="button" id='member-submit-btn'>
+							<i class="icon-ok bigger-110"></i>
+							提交
+						</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset">
+							<i class="icon-undo bigger-110"></i>
+							重置
+						</button>
+					</div>
+				</div>
+			</form>	
+	    </div>
+	</div>
+</div>
+<script src="${rc.contextPath}/assets/js/select2.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.validate.min.js"></script>
+<script src="${rc.contextPath}/assets/js/jquery.validate.message_cn.js"></script>
+<script src="${rc.contextPath}/assets/tp/js/erp/erpPrivilege_add.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/assets/css/validate.css" />

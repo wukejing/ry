@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+	<script type="text/javascript" src="${rc.contextPath}/assets/js/common/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="${rc.contextPath}/assets/js/company_list.js"></script>
+</head>
+<body>
+	<input id="contextPath" type="hidden" value="${rc.contextPath}"/>
+    <a id="logout" href="#">注销</a>
+    <br/>
+	公司信息:<br/>
+    #foreach($company in $companies)
+    	$company.expressName
+    	$company.contact
+    	<br/>
+    #end
+</body>
+</html>
